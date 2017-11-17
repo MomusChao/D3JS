@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title> SVG bar chart with value labels </title>
+    <script type="text/javascript" src="d3.min.js"></script>
+    <style type="text/css">
+        /* No style rules here yet */
+    </style>
+</head>
+<body>
+<script type="text/javascript">
+
+    //Width and height
+    var w = 500;  //SVG width
+    var h = 100;  //SVG height
+    var barPadding = 1;
+
+    var dataset = [ 15, 5, 8, 20, 11, 25, 12, 18, 15, 23,
+        7, 17, 6, 18, 20, 17, 13, 10, 6, 25 ];
+
+    //Create SVG element
+    var svg = d3.select("body")
+        .append("svg")
+        .attr("width", w)
+        .attr("height", h);
+    //Create rects ,and then add it into svg
+    svg.selectAll("rect")
+        .data(dataset)
+        .enter()
+        .append("rect")
+        .attr("x", function(d, i) {
+            return i * (w / dataset.length);
+        })
+        .attr("y", function(d) {
+            return h - (d * 4);
+        })
+        .attr("width", w / dataset.length - barPadding)
+        .attr("height", function(d) {
+            return d * 4;
+        })
+        // color selection: d is bigger, color will be more strong
+        .attr("fill", function(d) {
+            return "rgb(0, 0, " + Math.round(d * 10) + ")";
+        });
+    //text element in D3
+    svg.selectAll("text")
+        .data(dataset)
+        .enter()
+        .append("text")
+        .text(function(d) {
+            return d;
+        })
+        .attr("x", function(d, i) {
+            return i * (w / dataset.length) + (w/dataset.length - barPadding) / 2;
+        })
+        .attr("y", function(d) {
+            return h - (d * 4) + 14;
+        })
+        .attr("font-family", "sans-serif")
+        .attr("font-size", "11px")
+        .attr("fill", "white")
+        .attr("text-anchor","middle") //SVG text-anchor;
+</script>
+</body>
+</html>
+
